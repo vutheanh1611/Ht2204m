@@ -1,0 +1,14 @@
+create table Customers(
+Id int primary key identity(1,1),
+Name varchar(50) not null,
+Numbercard varchar(20) not null unique,
+Address varchar(255) not null
+);
+
+create table Subcribers(
+Id int primary key identity(1,1),
+Name varchar(255) not null default 'Trả trước',
+Phone varchar(20) not null unique,
+Date datetime not null default GETDATE(),
+CustomerId int not null foreign key references Customers(Id)
+);
