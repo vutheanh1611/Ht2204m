@@ -1,0 +1,25 @@
+create table KHs(
+Id int primary key identity(1,1),
+Name nvarchar(50) not null,
+Phone varchar(20) not null,
+Address nvarchar(255) not null
+);
+create table SPs(
+Id int primary key identity(1,1),
+Name nvarchar(255) not null,
+Mota nvarchar(255),
+DV nvarchar(20) not null,
+Price decimal(16,0) not null check (Price > 0) default 0
+);
+create table Oders(
+MaDH varchar(10) primary key,
+NgayDH date not null default GETDATE(),
+KHId int not null foreign key references KHs(Id),
+);
+create table Bills(
+Qty int not null,
+ThanhTien decimal(16,0) not null check (ThanhTien>0) default 0,
+TongTien decimal(16,0),
+OrderId varchar(10) not null foreign key references Oders(MaDH),
+SPId int not null foreign key references SPs(Id)
+);

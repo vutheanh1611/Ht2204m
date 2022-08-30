@@ -1,14 +1,42 @@
-create table Customers(
-Id int primary key identity(1,1),
-Name varchar(50) not null,
-Numbercard varchar(20) not null unique,
-Address varchar(255) not null
-);
+﻿insert into KHs(Name,Phone,Address)
+values(N'Nguyễn Văn An','987654321',N'111 Nguyễn Trãi, Thanh Xuân, Hà Nội');
+insert into KHs(Name,Phone,Address)
+values(N'Chu Văn Quỳnh','987654321',N'111 Láng, Thanh Xuân, Hà Nội');
 
-create table Subcribers(
-Id int primary key identity(1,1),
-Name varchar(255) not null default 'Trả trước',
-Phone varchar(20) not null unique,
-Date datetime not null default GETDATE(),
-CustomerId int not null foreign key references Customers(Id)
-);
+insert into SPs(Name,Mota,DV,price)
+values(N'Máy tính T450',N'Máy nhập mới',N'chiếc',1000);
+insert into SPs(Name,Mota,DV,price)
+values(N'Điện thoại Nokia5670',N'Điện thoại đang hot',N'chiếc',200);
+insert into SPs(Name,Mota,DV,price)
+values(N'Máy in SamSung',N'Máy in đang ế',N'chiếc',100);
+insert into SPs(Name,Mota,DV,price)
+values(N'Laptop Acer Nitro 5',N'Hàng mới nhập',N'chiếc',7000);
+
+insert into Oders(MaDH,NgayDH,KHId)
+values('123','20091118',1);
+insert into Oders(MaDH,NgayDH,KHId)
+values('456','20101118',2);
+
+insert into Bills(Qty,ThanhTien,OrderId,SPId)
+values(1,1000,123,1);
+insert into Bills(Qty,ThanhTien,OrderId,SPId)
+values(2,400,123,2);
+insert into Bills(Qty,ThanhTien,OrderId,SPId)
+values(1,100,123,3);
+insert into Bills(Qty,ThanhTien,OrderId,SPId)
+values(1,7000,456,4);
+
+select * from KHs;
+select * from SPs;
+select * from Oders;
+select * from Bills;
+
+select * from KHs order by Name asc;
+select * from SPs order by Price desc;
+
+select KHs.Name, Oders.MaDH, SPs.Name, SPs.DV, SPs.Price, Bills.Qty from ((SPs inner join Bills on Bills.SPId = SPs.Id)
+inner join Oders on Bills.OrderId = Oders.MaDH) inner join KHs on Oders.KHId = KHs.Id where KHs.Id = 1;
+
+select count(Id) as SoKH from KHs;
+select count(SPId) as SoSPDaban from Bills;
+select sum(Price) as TongtienTungMH from SPs inner join Bills on Bills.SPId = SPs.Id where Bills.OrderId = 123;
